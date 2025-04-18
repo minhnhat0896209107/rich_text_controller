@@ -347,10 +347,7 @@ class RichTextController extends TextEditingController {
         // For regex patterns, use the pattern as-is if allowInlineMatching is true
         // or if the pattern already contains \B (non-word boundary).
         // Otherwise, wrap it with \b (word boundary).
-        final pattern =
-            target.allowInlineMatching || target.regex!.pattern.contains(r'\B')
-                ? target.regex!.pattern
-                : '\\b${target.regex!.pattern}\\b';
+        final pattern = target.regex!.pattern; // Sử dụng pattern trực tiếp
         buffer.write('($pattern)');
       } else if (target.text != null) {
         // For plain text, escape it and handle special cases like !del
@@ -358,8 +355,8 @@ class RichTextController extends TextEditingController {
         final pattern = target.allowInlineMatching
             ? escaped
             : target.text!.startsWith('!')
-                ? '(?<!\\w)$escaped\\b' // Use lookbehind for !del
-                : '(?<!\\S)$escaped'; // Match if preceded by space, punctuation, or start of string
+                ? '(?<!\\w)$escaped\\b'
+                : '(?<!\\S)$escaped';// Loại trừ chữ cái và số
         buffer.write('($pattern)');
       }
 
