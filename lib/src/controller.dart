@@ -213,15 +213,9 @@ class RichTextController extends TextEditingController {
       //       text.substring(lastMatchEnd - startOffset, matchStart);
       //   children.add(TextSpan(text: nonMatchText, style: style));
       // }
-      if (matchStart > lastMatchEnd - startOffset) {
-        final nonMatchText =
-            text.substring(lastMatchEnd - startOffset, matchStart);
+      final nonMatchText = text.substring(lastMatchEnd, match.start);
+      if (nonMatchText.isNotEmpty) {
         children.add(TextSpan(text: nonMatchText, style: style));
-      } else if (matchStart == lastMatchEnd - startOffset) {
-        // Edge case: nếu ký tự đặc biệt dính liền phía trước, vẫn tiếp tục
-        final prefix = text.substring(
-            (matchStart - 1).clamp(0, text.length - 1), matchStart);
-        children.add(TextSpan(text: prefix, style: style));
       }
 
       // Process the match
