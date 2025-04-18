@@ -359,7 +359,7 @@ class RichTextController extends TextEditingController {
             ? escaped
             : target.text!.startsWith('!')
                 ? '(?<!\\w)$escaped\\b' // Use lookbehind for !del
-                : '\\b$escaped\\b'; // Use word boundary for others
+                : '(?<!\\S)$escaped'; // Match if preceded by space, punctuation, or start of string
         buffer.write('($pattern)');
       }
 
